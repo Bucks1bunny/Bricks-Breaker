@@ -1,0 +1,37 @@
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float maxBounceAngle;
+
+    private void Update()
+    {
+        var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = Vector3.MoveTowards(transform.position,
+            new Vector3(target.x, transform.position.y, transform.position.z), speed * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Ball ball = collision.gameObject.GetComponent<Ball>();
+
+        if (ball != null)
+        {
+            Vector3 paddlePosition = transform.position;
+            Vector2 contactPoint = collision.GetContact(0).point;
+
+            float offset = paddlePosition.x - contactPoint.x;
+            float width = collision.otherCollider.bounds.size.x / 2;
+
+            float currentAngle = Vector2.SignedAngle(Vector2.up, ball.rb.velocity);
+            float boucenAngle = (offset / width) * maxBounceAngle;
+            float newAngle = Mathf.Clamp(currentAngle + boucenAngle, -maxBounceAngle, maxBounceAngle);
+
+            Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
+            ball.rb.velocity = rotation * Vector2.up * ball.rb.velocity.magnitude;
+        }
+    }
+}
