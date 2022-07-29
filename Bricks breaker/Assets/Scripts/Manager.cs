@@ -3,21 +3,17 @@ using TMPro;
 
 public class Manager : MonoBehaviour
 {
-    public int Score
-    {
-        get;
-        private set;
-    }
-
     [SerializeField]
     private GameObject pauseUI;
     [SerializeField]
     private TextMeshProUGUI scoreUI;
     [SerializeField]
-    private 
+    private BrickManager brickManager;
+    private int score = 0;
 
-    private void Awake()
+    private void Start()
     {
+        brickManager.Scored += UpdateScore;
         Cursor.visible = false;
         pauseUI.SetActive(false);
     }
@@ -32,8 +28,9 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private void UpdateScore()
+    private void UpdateScore(int _score)
     {
-        scoreUI.text = "Score:" + Score.ToString();
+        score += _score;
+        scoreUI.text = "Score:" + score.ToString();
     }
 }

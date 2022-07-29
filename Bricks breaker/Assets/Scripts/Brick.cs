@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    public event Action<int> ScoreAdded = delegate { };
+    public event Action<Brick> BrickDestroyed = delegate { };
 
-    [SerializeField]
-    private BricksScriptableObject data;
+    [field: SerializeField]
+    public BricksScriptableObject data
+    {
+        get;
+        private set;
+    }
     [SerializeField]
     private GameObject[] powerups;
     private int currentHealth;
@@ -31,7 +35,7 @@ public class Brick : MonoBehaviour
     private void Death()
     {
         Destroy(gameObject);
-        ScoreAdded();
+        BrickDestroyed(this);
         if (data.hasPowerup)
         {
             DropPowerup();
@@ -40,7 +44,7 @@ public class Brick : MonoBehaviour
 
     private void DropPowerup()
     {
-        var powerup = powerups[Random.Range(0, powerups.Length)];
+        var powerup = powerups[UnityEngine.Random.Range(0, powerups.Length)];
         Instantiate(powerup, transform.position, Quaternion.identity);
     }
 }
