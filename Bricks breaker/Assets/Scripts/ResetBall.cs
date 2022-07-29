@@ -3,7 +3,8 @@ using System;
 
 public class ResetBall : MonoBehaviour
 {
-    public event Action<bool, GameObject> BallAdded = delegate { };
+    public event Action<bool, Ball> BallAdded = delegate { };
+    public event Action BallPassed = delegate { };
 
     [SerializeField]
     private GameObject ball;
@@ -14,7 +15,7 @@ public class ResetBall : MonoBehaviour
         {
             //BallAdded(false, collision.gameObject);
             Destroy(collision.gameObject);
-
+            BallPassed();
             Instantiate(ball, Vector2.zero, Quaternion.identity);
             //BallAdded(true, ball);
         }

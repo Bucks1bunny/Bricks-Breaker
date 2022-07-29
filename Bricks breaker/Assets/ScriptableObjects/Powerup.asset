@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Powerup
   m_EditorClassIdentifier: 
   health: 1
-  score: 2
+  score: 3
   isBreakable: 1
   hasPowerup: 1

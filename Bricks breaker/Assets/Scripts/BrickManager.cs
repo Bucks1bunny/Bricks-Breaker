@@ -5,8 +5,9 @@ using UnityEngine;
 public class BrickManager : MonoBehaviour
 {
     public event Action<int> Scored = delegate { };
+    public event Action<bool> AllBricksDestoyed = delegate { };
 
-    public HashSet<Brick> bricks
+    public HashSet<Brick> Bricks
     {
         get;
         private set;
@@ -17,14 +18,19 @@ public class BrickManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             var brick = transform.GetChild(i).GetComponent<Brick>();
-            bricks.Add(brick);
+            Bricks.Add(brick);
             brick.BrickDestroyed += OnBrickDestroy;
         }
     }
 
     private void OnBrickDestroy(Brick brick)
     {
-        bricks.Remove(brick);
+        Bricks.Remove(brick);
         Scored(brick.data.score);
+        if (Bricks.Count == 0)
+        {
+            AllBricksDestoyed(true);
+        }
     }
+
 }

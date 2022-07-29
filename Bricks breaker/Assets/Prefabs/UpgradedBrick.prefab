@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1334129155495344264}
   - component: {fileID: 8470440671359540309}
   m_Layer: 0
-  m_Name: UnbreakableBrick
+  m_Name: UpgradedBrick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
