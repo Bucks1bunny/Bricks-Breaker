@@ -16,10 +16,10 @@ public class Paddle : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Ball ball = collision.gameObject.GetComponent<Ball>();
 
-        if (ball != null)
+        if (collision.gameObject.tag == "Ball")
         {
+            Ball ball = collision.gameObject.GetComponent<Ball>();
             Vector3 paddlePosition = transform.position;
             Vector2 contactPoint = collision.GetContact(0).point;
 
@@ -32,6 +32,11 @@ public class Paddle : MonoBehaviour
 
             Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
             ball.rb.velocity = rotation * Vector2.up * ball.rb.velocity.magnitude;
+        }
+        else if (collision.gameObject.tag == "Powerup")
+        {
+            Powerup powerup = collision.gameObject.GetComponent<Powerup>();
+            powerup.GetPowerup();
         }
     }
 }

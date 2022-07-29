@@ -29,4 +29,12 @@ public class Ball : MonoBehaviour
 
         rb.AddForce(force.normalized * speed);
     }
+
+    protected void Shoot()
+    {
+        Vector2 force = Vector2.zero;
+        force.y = -1f;
+
+        rb.AddForce(force.normalized * speed);
+    }
 }

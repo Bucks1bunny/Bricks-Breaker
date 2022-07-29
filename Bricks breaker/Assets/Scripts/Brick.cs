@@ -1,9 +1,14 @@
+using System;
 using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
+    public event Action<int> ScoreAdded = delegate { };
+
     [SerializeField]
     private BricksScriptableObject data;
+    [SerializeField]
+    private GameObject[] powerups;
     private int currentHealth;
 
     private void Awake()
@@ -26,5 +31,16 @@ public class Brick : MonoBehaviour
     private void Death()
     {
         Destroy(gameObject);
+        ScoreAdded();
+        if (data.hasPowerup)
+        {
+            DropPowerup();
+        }
+    }
+
+    private void DropPowerup()
+    {
+        var powerup = powerups[Random.Range(0, powerups.Length)];
+        Instantiate(powerup, transform.position, Quaternion.identity);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class BricksScriptableObject : ScriptableObject
 {
     public int health;
+    public int score;
     public bool isBreakable;
     public bool hasPowerup;
 }
