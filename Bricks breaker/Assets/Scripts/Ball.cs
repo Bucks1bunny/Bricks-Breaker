@@ -18,6 +18,11 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
+        Invoke("ShootRandomly", 2f);
+    }
+
+    private void ShootRandomly()
+    {
         Vector2 force = Vector2.zero;
         force.x = Random.Range(-1f, 1f);
         force.y = -1f;
