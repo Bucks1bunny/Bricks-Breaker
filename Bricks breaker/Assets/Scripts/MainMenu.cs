@@ -1,11 +1,23 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
-    public void Continue()
+    public Button buttonContinue;
+
+    private void Start()
     {
-        SceneManager.LoadScene(0);
+        string path = Application.persistentDataPath + "/game.fun";
+        if (!File.Exists(path))
+        {
+            buttonContinue.enabled = false;
+        }
+        else
+        {
+            buttonContinue.enabled = true;
+        }
     }
 
     public void NewGame()

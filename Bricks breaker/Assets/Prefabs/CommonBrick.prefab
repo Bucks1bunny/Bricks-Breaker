@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87632e1896e17d34b89d2d84cc4d48a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <data>k__BackingField: {fileID: 11400000, guid: 8cccaddcd5a968d4bb6838a8317aada0, type: 2}
+  <Data>k__BackingField: {fileID: 11400000, guid: 8cccaddcd5a968d4bb6838a8317aada0, type: 2}
   powerups:
   - {fileID: 1958479619056519777, guid: 1948eeab31721874891b85f6ab3f46b9, type: 3}
   - {fileID: 7302815089413473500, guid: 77f63c85206aebe41a797581ceb9a2b7, type: 3}

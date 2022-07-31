@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 
 public class Manager : MonoBehaviour
 {
@@ -15,25 +14,36 @@ public class Manager : MonoBehaviour
         get;
         private set;
     }
+    [field: SerializeField]
+    public EndGame EndGameUI
+    {
+        get;
+        private set;
+    }
+    [field: SerializeField]
+    public GameUI GameUI
+    {
+        get;
+        private set;
+    }
+    [field:SerializeField]
+    public Game Data
+    {
+        get;
+        private set;
+    }
 
     [SerializeField]
     private GameObject pauseUI = null;
     [SerializeField]
     private GameObject endGameUI = null;
-    [SerializeField]
-    private TextMeshProUGUI endGameText = null;
-    [SerializeField]
-    private TextMeshProUGUI scoreText = null;
-    [SerializeField]
-    private TextMeshProUGUI endScoreText = null;
-    private int score = 0;
-    private int health = 3;
 
     private void Start()
     {
         BrickManager.Scored += UpdateScore;
         BrickManager.AllBricksDestoyed += EndGame;
         ResetBall.BallPassed += OnHealthLost;
+        GameUI.HighScoreText.text = "HighScore: " + PlayerPrefs.GetInt("HIGHSCORE").ToString();
 
         Cursor.visible = false;
         pauseUI.SetActive(false);
@@ -51,22 +61,28 @@ public class Manager : MonoBehaviour
 
     private void UpdateScore(int _score)
     {
-        score += _score;
-        scoreText.text = "Score:" + score.ToString();
+        Data.Score += _score;
+        GameUI.ScoreText.text = "Score:" + Data.Score.ToString();
     }
 
     private void EndGame(bool win)
     {
         endGameUI.SetActive(true);
-        endScoreText.text = "Score:" + score.ToString();
+        EndGameUI.EndScoreText.text = "Score:" + Data.Score.ToString();
+        int highScore = PlayerPrefs.GetInt("HIGHSCORE");
+        if (Data.Score > highScore)
+        {
+            PlayerPrefs.SetInt("HIGHSCORE", Data.Score);
+        }
+        EndGameUI.Highscore.text = "HighScore: " + highScore.ToString();
         TurnOnCursor();
         if (win)
         {
-            endGameText.text = "YOU WIN";
+            EndGameUI.EndGameText.text = "YOU WIN";
         }
         else
         {
-            endGameText.text = "GAME OVER";
+            EndGameUI.EndGameText.text = "GAME OVER";
         }
     }
 
@@ -78,8 +94,9 @@ public class Manager : MonoBehaviour
 
     private void OnHealthLost()
     {
-        health--;
-        if (health == 0)
+        Data.Lives--;
+        GameUI.LivesText.text = "Lives: " + Data.Lives.ToString();
+        if (Data.Lives == 0)
         {
             EndGame(false);
         }

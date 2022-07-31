@@ -6,23 +6,24 @@ public class Brick : MonoBehaviour
     public event Action<Brick> BrickDestroyed = delegate { };
 
     [field: SerializeField]
-    public BricksScriptableObject data
+    public BricksScriptableObject Data
     {
         get;
         private set;
     }
+
     [SerializeField]
     private GameObject[] powerups;
     private int currentHealth;
 
     private void Awake()
     {
-        currentHealth = data.health;
+        currentHealth = Data.health;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision != null && data.isBreakable)
+        if (collision != null && Data.isBreakable)
         {
             currentHealth--;
             if (currentHealth == 0)
@@ -36,7 +37,7 @@ public class Brick : MonoBehaviour
     {
         Destroy(gameObject);
         BrickDestroyed(this);
-        if (data.hasPowerup)
+        if (Data.hasPowerup)
         {
             DropPowerup();
         }

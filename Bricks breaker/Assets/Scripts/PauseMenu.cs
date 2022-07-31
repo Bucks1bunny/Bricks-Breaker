@@ -13,11 +13,6 @@ public class PauseMenu : MonoBehaviour
         pauseUI.SetActive(false);
     }
 
-    public void Save()
-    {
-
-    }
-
     public void Quit()
     {
         SceneManager.LoadScene(1);

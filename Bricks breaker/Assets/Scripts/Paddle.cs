@@ -31,7 +31,7 @@ public class Paddle : MonoBehaviour
             float newAngle = Mathf.Clamp(currentAngle + boucenAngle, -maxBounceAngle, maxBounceAngle);
 
             Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
-            ball.rb.velocity = rotation * Vector2.up * ball.rb.velocity.magnitude;
+            ball.rb.velocity = rotation * Vector2.up * ball.rb.velocity.magnitude * 1.1f;
         }
         else if (collision.gameObject.tag == "Powerup")
         {

@@ -26,7 +26,7 @@ public class BrickManager : MonoBehaviour
     private void OnBrickDestroy(Brick brick)
     {
         Bricks.Remove(brick);
-        Scored(brick.data.score);
+        Scored(brick.Data.score);
         if (Bricks.Count == 0)
         {
             AllBricksDestoyed(true);
