@@ -28,15 +28,15 @@ public class Brick : MonoBehaviour
             currentHealth--;
             if (currentHealth == 0)
             {
-                Death();
+                Destroyed();
             }
         }
     }
 
-    private void Death()
+    private void Destroyed()
     {
-        Destroy(gameObject);
         BrickDestroyed(this);
+        Destroy(gameObject);
         if (Data.hasPowerup)
         {
             DropPowerup();

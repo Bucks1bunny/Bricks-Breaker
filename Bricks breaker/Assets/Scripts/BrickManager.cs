@@ -7,27 +7,36 @@ public class BrickManager : MonoBehaviour
     public event Action<int> Scored = delegate { };
     public event Action<bool> AllBricksDestoyed = delegate { };
 
-    public HashSet<Brick> Bricks
-    {
-        get;
-        private set;
-    } = new HashSet<Brick>();
+    [SerializeField]
+    private GameObject[] bricks;
+    [SerializeField]
+    private Transform[] positions;
+
+    private Dictionary<Transform, Brick> bricksPosition = new Dictionary<Transform, Brick>();
 
     private void Awake()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        foreach (var position in positions)
         {
-            var brick = transform.GetChild(i).GetComponent<Brick>();
-            Bricks.Add(brick);
+            var brick = bricks[UnityEngine.Random.Range(0, bricks.Length)].GetComponent<Brick>();
             brick.BrickDestroyed += OnBrickDestroy;
+            Instantiate(brick, position.position, Quaternion.identity);
+            bricksPosition.Add(position, brick);
         }
     }
 
     private void OnBrickDestroy(Brick brick)
     {
-        Bricks.Remove(brick);
+        foreach (var tempBrick in bricksPosition)
+        {
+            if (tempBrick.Value != brick)
+            {
+                continue;
+            }
+            bricksPosition.Remove(tempBrick.Key);
+        }
         Scored(brick.Data.score);
-        if (Bricks.Count == 0)
+        if (bricksPosition.Count == 0)
         {
             AllBricksDestoyed(true);
         }

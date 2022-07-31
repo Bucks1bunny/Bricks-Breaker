@@ -26,24 +26,24 @@ public class Manager : MonoBehaviour
         get;
         private set;
     }
-    [field:SerializeField]
-    public Game Data
-    {
-        get;
-        private set;
-    }
 
     [SerializeField]
     private GameObject pauseUI = null;
     [SerializeField]
     private GameObject endGameUI = null;
+    private Game data;
 
     private void Start()
     {
+        data = GameObject.Find("GameManager").GetComponent<Game>();
+
         BrickManager.Scored += UpdateScore;
         BrickManager.AllBricksDestoyed += EndGame;
         ResetBall.BallPassed += OnHealthLost;
+
         GameUI.HighScoreText.text = "HighScore: " + PlayerPrefs.GetInt("HIGHSCORE").ToString();
+        GameUI.LivesText.text = "Lives: " + data.Lives.ToString();
+        GameUI.ScoreText.text = "Score:" + data.Score.ToString();
 
         Cursor.visible = false;
         pauseUI.SetActive(false);
@@ -61,18 +61,18 @@ public class Manager : MonoBehaviour
 
     private void UpdateScore(int _score)
     {
-        Data.Score += _score;
-        GameUI.ScoreText.text = "Score:" + Data.Score.ToString();
+        data.Score += _score;
+        GameUI.ScoreText.text = "Score:" + data.Score.ToString();
     }
 
     private void EndGame(bool win)
     {
         endGameUI.SetActive(true);
-        EndGameUI.EndScoreText.text = "Score:" + Data.Score.ToString();
+        EndGameUI.EndScoreText.text = "Score:" + data.Score.ToString();
         int highScore = PlayerPrefs.GetInt("HIGHSCORE");
-        if (Data.Score > highScore)
+        if (data.Score > highScore)
         {
-            PlayerPrefs.SetInt("HIGHSCORE", Data.Score);
+            PlayerPrefs.SetInt("HIGHSCORE", data.Score);
         }
         EndGameUI.Highscore.text = "HighScore: " + highScore.ToString();
         TurnOnCursor();
@@ -94,9 +94,9 @@ public class Manager : MonoBehaviour
 
     private void OnHealthLost()
     {
-        Data.Lives--;
-        GameUI.LivesText.text = "Lives: " + Data.Lives.ToString();
-        if (Data.Lives == 0)
+        data.Lives--;
+        GameUI.LivesText.text = "Lives: " + data.Lives.ToString();
+        if (data.Lives == 0)
         {
             EndGame(false);
         }
