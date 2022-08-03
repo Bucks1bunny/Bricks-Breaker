@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    [field: SerializeField]
+    public int MaxSpeed
+    {
+        get;
+        private set;
+    } = 200;
     public Rigidbody2D rb
     {
         get;

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ball
   - Powerup
+  - GameManager
+  - DontDestroy
+  - Brick
   layers:
   - Default
   - TransparentFX

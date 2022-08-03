@@ -32,8 +32,16 @@ public class Paddle : MonoBehaviour
 
             Quaternion rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
             ball.rb.velocity = rotation * Vector2.up * ball.rb.velocity.magnitude * 1.1f;
+            if(ball.rb.velocity.magnitude > ball.MaxSpeed)
+            {
+                ball.rb.velocity = ball.rb.velocity.normalized * ball.MaxSpeed;
+            }
         }
-        else if (collision.gameObject.tag == "Powerup")
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Powerup")
         {
             Powerup powerup = collision.gameObject.GetComponent<Powerup>();
             powerup.GetPowerup();

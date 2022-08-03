@@ -15,7 +15,7 @@ public class Brick : MonoBehaviour
     [SerializeField]
     private GameObject[] powerups;
     private int currentHealth;
-
+    
     private void Awake()
     {
         currentHealth = Data.health;
@@ -37,6 +37,7 @@ public class Brick : MonoBehaviour
     {
         BrickDestroyed(this);
         Destroy(gameObject);
+
         if (Data.hasPowerup)
         {
             DropPowerup();

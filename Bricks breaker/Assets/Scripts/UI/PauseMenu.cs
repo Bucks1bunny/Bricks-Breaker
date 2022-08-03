@@ -13,6 +13,11 @@ public class PauseMenu : MonoBehaviour
         pauseUI.SetActive(false);
     }
 
+    public void Save()
+    {
+        DataManager.instance.SaveGame();
+    }
+
     public void Quit()
     {
         SceneManager.LoadScene(1);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Manager : MonoBehaviour, IDataPersistence
 {
     [field: SerializeField]
     public BrickManager BrickManager
@@ -31,19 +31,30 @@ public class Manager : MonoBehaviour
     private GameObject pauseUI = null;
     [SerializeField]
     private GameObject endGameUI = null;
-    private Game data;
+    private int score;
+    private int lives;
+
+    public void LoadData(GameData data)
+    {
+        this.score = data.score;
+        this.lives = data.lives;
+        SetScore(score);
+        SetLives(lives);
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.lives = this.lives;
+        data.score = this.score;
+    }
 
     private void Start()
     {
-        data = GameObject.Find("GameManager").GetComponent<Game>();
-
         BrickManager.Scored += UpdateScore;
         BrickManager.AllBricksDestoyed += EndGame;
         ResetBall.BallPassed += OnHealthLost;
 
         GameUI.HighScoreText.text = "HighScore: " + PlayerPrefs.GetInt("HIGHSCORE").ToString();
-        GameUI.LivesText.text = "Lives: " + data.Lives.ToString();
-        GameUI.ScoreText.text = "Score:" + data.Score.ToString();
 
         Cursor.visible = false;
         pauseUI.SetActive(false);
@@ -59,22 +70,30 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private void UpdateScore(int _score)
+    private void SetScore(int _score)
     {
-        data.Score += _score;
-        GameUI.ScoreText.text = "Score:" + data.Score.ToString();
+        this.score = _score;
+        GameUI.ScoreText.text = "Score:" + score.ToString();
+    }
+
+    private void SetLives(int _lives)
+    {
+        this.lives = _lives;
+        GameUI.LivesText.text = "Lives:" + lives.ToString();
     }
 
     private void EndGame(bool win)
     {
         endGameUI.SetActive(true);
-        EndGameUI.EndScoreText.text = "Score:" + data.Score.ToString();
+        EndGameUI.EndScoreText.text = "Score:" + score.ToString();
+
         int highScore = PlayerPrefs.GetInt("HIGHSCORE");
-        if (data.Score > highScore)
+        if (score > highScore)
         {
-            PlayerPrefs.SetInt("HIGHSCORE", data.Score);
+            PlayerPrefs.SetInt("HIGHSCORE", score);
         }
         EndGameUI.Highscore.text = "HighScore: " + highScore.ToString();
+
         TurnOnCursor();
         if (win)
         {
@@ -92,11 +111,17 @@ public class Manager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    private void UpdateScore(int _score)
+    {
+        this.score += _score;
+        GameUI.ScoreText.text = "Score:" + score.ToString();
+    }
+
     private void OnHealthLost()
     {
-        data.Lives--;
-        GameUI.LivesText.text = "Lives: " + data.Lives.ToString();
-        if (data.Lives == 0)
+        lives--;
+        GameUI.LivesText.text = "Lives: " + lives.ToString();
+        if (lives == 0)
         {
             EndGame(false);
         }
