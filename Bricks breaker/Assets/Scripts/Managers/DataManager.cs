@@ -84,6 +84,11 @@ public class DataManager : MonoBehaviour
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
     }
 
+    private void Start()
+    {
+        
+    }
+
     private HashSet<IDataPersistence> FindAllDataPersistenceObjcts()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();

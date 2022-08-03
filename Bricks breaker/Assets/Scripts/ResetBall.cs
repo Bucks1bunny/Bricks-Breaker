@@ -3,7 +3,6 @@ using System;
 
 public class ResetBall : MonoBehaviour
 {
-    public event Action<bool, Ball> BallAdded = delegate { };
     public event Action BallPassed = delegate { };
 
     [SerializeField]
@@ -13,11 +12,9 @@ public class ResetBall : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
-            //BallAdded(false, collision.gameObject);
             Destroy(collision.gameObject);
             BallPassed();
             Instantiate(ball, Vector2.zero, Quaternion.identity);
-            //BallAdded(true, ball);
         }
         else if (collision.gameObject.tag == "Powerup")
         {

@@ -121,7 +121,7 @@ public class Manager : MonoBehaviour, IDataPersistence
     {
         lives--;
         GameUI.LivesText.text = "Lives: " + lives.ToString();
-        if (lives == 0)
+        if (lives <= 0)
         {
             EndGame(false);
         }

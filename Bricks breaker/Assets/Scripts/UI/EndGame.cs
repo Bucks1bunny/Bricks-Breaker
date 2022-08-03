@@ -25,11 +25,11 @@ public class EndGame : MonoBehaviour
 
     public void Retry()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Game");
     }
 
     public void Quit()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("MainMenu");
     }
 }
